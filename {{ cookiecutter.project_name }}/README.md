@@ -1,6 +1,7 @@
-# {{ cookiecutter.release_date }}
+# {{ cookiecutter.project_name }}
 <p align="center"><img src="reports/figures/banner.png"></p>
-<sub>Author: {{ cookiecutter.author_name }}</sub><br>
+<sub>Author: {{ cookiecutter.author_name }}</sub>
+<br>
 <sub>Date: {{ cookiecutter.release_date }}</sub>
 
 ---
