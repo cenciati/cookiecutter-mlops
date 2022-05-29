@@ -56,7 +56,7 @@ This model is an idealised sequence of events. In practice many of the tasks can
 7. Hyperparameters fine tuning
 8. Deployment
 
-### 2.2.3. Moddel lifecycle
+### 2.2.3. Model lifecycle
 Placeholder
 
 ---
