@@ -1,7 +1,7 @@
 # {{ cookiecutter.project_name }}
 <p align="center"><img src="reports/figures/banner.png"></p>
 <sub>Author: {{ cookiecutter.author_name }}</sub>
-<br>
+
 <sub>Date: {{ cookiecutter.release_date }}</sub>
 
 ---
@@ -10,7 +10,7 @@
   1. Business problem
   2. Strategy
   3. Insights
-  4. Algorithm applied
+  4. Solution
   5. Conclusions
   6. References
 
@@ -20,16 +20,12 @@
 ## 1.1. Introduction
 Placeholder
 
-## 1.2. Problem statement
+**Problem statement:** Placeholder
+
+## 1.2. Target metric
 Placeholder
 
-## 1.3. Impact
-Placeholder
-
-## 1.4. Target metric
-Placeholder
-
-## 1.5. Assumptions
+## 1.3. Assumptions
 Placeholder
 
 ---
@@ -71,11 +67,11 @@ Placeholder
 
 ---
 
-# 4. Algorithm applied
-## 4.1. Algorithm
+# 4. Solution
+## 4.1. Algorithm applied
 Placeholder
 
-## 4.2. Performance
+## 4.2. Performance and impact
 Placeholder
 
 ---
