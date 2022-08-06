@@ -1,7 +1,7 @@
 {
     "author_name": "Gabriel O. Cenciati",
-    "repo_name": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
     "project_name": "Project name",
+    "repo_name": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
     "release_date": "mm-dd-yyyy",
     "license": ["MIT", "BSD", "GNU GPL v3.0", "Apache Software License 2.0", "No license file"]
 }
