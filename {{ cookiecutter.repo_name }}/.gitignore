@@ -7,6 +7,7 @@
 dst-env/
 .cache/v/cache/lastfailed
 tests/.cache/v/cache/lastfailed
+.pytest_cache/
 
 # Data
 *.csv
