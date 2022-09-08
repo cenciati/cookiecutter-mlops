@@ -3,39 +3,49 @@ repos:
     rev: 22.6.0
     hooks: 
     -   id: black
+        name: black (formatter)
         language_version: python3.10
         stages: [commit]
+
 -   repo: https://github.com/pycqa/isort
     rev: 5.10.1
     hooks:
       - id: isort
-        name: isort (python)
+        name: isort (sort libraries)
+        stages: [commit]
+
 -   repo: https://gitlab.com/pycqa/flake8
     rev: 5.0.4
     hooks:
     -   id: flake8
+        name: flake8 (linter)
         stages: [commit]
+
 -   repo: local
     hooks:
     -   id: pytest-api
-        name: test api
+        name: pytest (api)
         language: system
         entry: bash -c '.venv/bin/pytest -v -s src/api/tests'
         always_run: true
+        fail_fast: true
         pass_filenames: false
         stages: [commit]
     -   id: pytest-pipeline
-        name: test data pipeline
+        name: pytest (pipeline)
         language: system
         entry: bash -c '.venv/bin/pytest -v -s src/pipeline/stages/tests'
         always_run: true
+        fail_fast: true
         pass_filenames: false
         stages: [commit]
+    
 -   repo: local
     hooks:
     -   id: requirements
-        name: update requirements file
+        name: update requirements.txt 
         language: system
         entry: bash -c '.venv/bin/pip freeze > requirements.txt && git add requirements.txt'
+        always_run: true
         pass_filenames: false
         stages: [commit]
