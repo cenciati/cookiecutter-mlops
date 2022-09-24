@@ -4,7 +4,7 @@ repos:
     hooks: 
     -   id: black
         name: black (formatter)
-        language_version: python3.10
+        language_version: python3.10.7
         stages: [commit]
 
 -   repo: https://github.com/pycqa/isort
@@ -34,7 +34,7 @@ repos:
     -   id: pytest-pipeline
         name: pytest (pipeline)
         language: system
-        entry: bash -c '.venv/bin/pytest -v -s src/pipeline/stages/tests'
+        entry: bash -c '.venv/bin/pytest -v -s src/pipeline/tests'
         always_run: true
         fail_fast: true
         pass_filenames: false
@@ -42,7 +42,7 @@ repos:
     
 -   repo: local
     hooks:
-    -   id: requirements
+    -   id: update-requirements
         name: update requirements.txt 
         language: system
         entry: bash -c '.venv/bin/pip freeze > requirements.txt && git add requirements.txt'
