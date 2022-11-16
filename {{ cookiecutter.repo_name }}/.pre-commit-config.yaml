@@ -13,11 +13,37 @@ repos:
         name: black (formatter)
         stages: [commit]
 
--   repo: https://gitlab.com/pycqa/flake8
+-   repo: https://github.com/PyCQA/pylint
+    rev: v2.15.5
+    hooks:
+    -   id: pylint
+        name: pylint (linter)
+        stages: [commit]
+
+-   repo: https://github.com/PyCQA/flake8
     rev: 5.0.4
     hooks:
     -   id: flake8
         name: flake8 (linter)
+        stages: [commit]
+
+-   repo: https://github.com/PyCQA/autoflake
+    rev: v1.7.7
+    hooks:
+    -   id: autoflake
+        name: autoflake (remove unused imports and variables)
+        stages: [commit]
+        args:
+            - "--in-place"
+            - "--expand-star-imports"
+            - "--remove-duplicate-keys"
+            - "--remove-unused-variables"
+
+-   repo: https://github.com/python/mypy
+    rev: v0.991
+    hooks:
+    -   id: mypy
+        name: mypy (static type checker)
         stages: [commit]
 
 -   repo: local
