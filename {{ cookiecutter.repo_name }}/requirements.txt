@@ -1,0 +1,8 @@
+pre-commit
+black
+isort
+autoflake
+flake8
+pylint
+pytest
+pytest-cov
