@@ -1,66 +1,56 @@
+default_stages: [commit]
 repos:
--   repo: https://github.com/pycqa/isort
-    rev: 5.10.1
-    hooks:
-      - id: isort
-        name: isort (sorter)
-        stages: [commit]
-
 -   repo: https://github.com/ambv/black
     rev: 22.6.0
     hooks: 
     -   id: black
-        name: black (formatter)
-        stages: [commit]
-
--   repo: https://github.com/PyCQA/pylint
-    rev: v2.15.5
+        name: format code
+-   repo: https://github.com/pycqa/isort
+    rev: 5.10.1
     hooks:
-    -   id: pylint
-        name: pylint (linter)
-        stages: [commit]
-
--   repo: https://github.com/PyCQA/flake8
-    rev: 5.0.4
-    hooks:
-    -   id: flake8
-        name: flake8 (linter)
-        stages: [commit]
-
+      - id: isort
+        name: sort libraries
 -   repo: https://github.com/PyCQA/autoflake
     rev: v1.7.7
     hooks:
     -   id: autoflake
-        name: autoflake (remove unused imports and variables)
-        stages: [commit]
+        name: remove dead code
         args:
-            - "--in-place"
-            - "--expand-star-imports"
-            - "--remove-duplicate-keys"
-            - "--remove-unused-variables"
-
--   repo: https://github.com/python/mypy
-    rev: v0.991
+            - --in-place
+            - --expand-star-imports
+            - --remove-duplicate-keys
+            - --remove-all-unused-imports
+            - --remove-unused-variables
+-   repo: https://github.com/PyCQA/flake8
+    rev: 5.0.4
     hooks:
-    -   id: mypy
-        name: mypy (static type checker)
-        stages: [commit]
-
+    -   id: flake8
+        name: lint code (flake8)
+-   repo: https://github.com/PyCQA/pylint
+    rev: v2.15.6
+    hooks:
+      - id: pylint
+        name: lint code (pylint)
 -   repo: local
     hooks:
     -   id: pytest
-        name: pytest (tests)
+        name: test code
         language: system
-        entry: bash -c '.venv/bin/pytest -v -s src/fishermanpy/tests/'
+        entry: bash -c ".venv/bin/python -m pytest
+               -v -s
+               --cov
+               --cov-report html:reports/coverage
+               --cov-report term-missing
+               --cov-fail-under 80
+               -W ignore::DeprecationWarning
+               src/tests"
         always_run: true
         pass_filenames: false
-        stages: [commit]
-
 -   repo: local
     hooks:
     -   id: requirements
-        name: update and git add requirements file
+        name: update and git add requirements
         language: system
-        entry: bash -c '.venv/bin/pip freeze > requirements.txt && git add requirements.txt'
+        entry: bash -c ".venv/bin/pip freeze > requirements.txt
+               && git add requirements.txt"
         pass_filenames: false
-        stages: [commit]
