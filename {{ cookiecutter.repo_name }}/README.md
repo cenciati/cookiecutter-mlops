@@ -1,5 +1,3 @@
-[![ci](https://github.com/cenciati/vehicle-insurance-cross-sell/actions/workflows/linter.yml/badge.svg)](https://github.com/cenciati/vehicle-insurance-cross-sell/actions/workflows/linter.yml/)
-
 # **{{ cookiecutter.project_name }}**
 <p align="center"><img src="reports/imgs/banner.png"></p>
 <sub>Author: {{ cookiecutter.author_name }}</sub><br>
