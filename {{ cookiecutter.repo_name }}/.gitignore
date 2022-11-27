@@ -1,12 +1,19 @@
 # cache
 .pytest_cache/
+.mypy_cache/
 .ipynb_checkpoints
 *.pyc
+.coverage
 
 # byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+
+
+# visual studio code files
+.vs/
+.vscode/
 
 # data
 *.csv
@@ -17,7 +24,6 @@ __pycache__/
 *.zip
 *.gzip
 *.tar
-data/
 
 # binaries
 *.bin
