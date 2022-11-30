@@ -1,8 +1,9 @@
-import warnings
 from typing import Optional
 
-import numpy as np
+import warnings
+
 import pandas as pd
+import numpy as np
 from matplotlib import pyplot as plt
 from scipy.stats import chi2_contingency
 
@@ -12,12 +13,15 @@ def jupyter_settings(
     fontsize: Optional[int] = 12,
     filterwarnings: Optional[bool] = False,
 ) -> None:
-    """sets jupyter notebook settings.
+    """Sets jupyter notebook settings.
 
-    :param figsize: default size of all figures.
-    :param fontsize: default size of all labels.
-    :param filterwarnings: defines whether warnings will be displayed.
-    :return: none.
+    Args:
+        figsize (tuple): Defines default size of all figures.
+        fontsize (int): Defines default size of all labels.
+        filterwarnings (bool): Defines whether warnings will be displayed.
+
+    Return:
+        None
     """
     # pandas settings
     pd.options.display.max_columns = None
@@ -38,11 +42,14 @@ def jupyter_settings(
 
 
 def cramers_v(x: pd.Series, y: pd.Series) -> float:
-    """calculates the cramer's v correlation between two variables.
+    """Calculates the cramer's v correlation between two variables.
 
-    :param x: first variable.
-    :param y: second varaible.
-    :returns cramer's v correlation between x and y.
+    Args:
+        x (pd.Series): First variable.
+        y (pd.Series): Second varaible.
+
+    Return:
+        crammer_v (float): Cramer's v correlation between x and y.
     """
     # create confusion matrix
     cm = pd.crosstab(x, y).to_numpy()
@@ -57,4 +64,7 @@ def cramers_v(x: pd.Series, y: pd.Series) -> float:
     kcorr = k - (k - 1) ** 2 / (n - 1)
     rcorr = r - (r - 1) ** 2 / (n - 1)
 
-    return np.sqrt((chi2corr / n) / (min(kcorr - 1, rcorr - 1)))
+    # compute crammer's v correlation
+    crammer_v = np.sqrt((chi2corr / n) / (min(kcorr - 1, rcorr - 1)))
+
+    return crammer_v
