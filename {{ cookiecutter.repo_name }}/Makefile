@@ -1,40 +1,43 @@
 SHELL = /bin/bash
-PYTHON := python3
-PIP := pip3
-FILES_PATH := src/*/*.py
-TESTS_PATH := src/tests
 
-.PHONY: help lint test setup clean
-.ONESHELL: setup clean
+PYTHON := python3 -m
+POETRY := poetry run
+SRC_CODE_PATH := src/
 
-help:
-	@echo "~~~~~~~~~~~~~~~~~HELP~~~~~~~~~~~~~~~~~~"
-	@echo "lint : run linter and formatters."
-	@echo "test: run tests."
-	@echo "setup : prepares the enviornment."
-	@echo "clean : cleans the environment."
-	@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+.PHONY: help
+help: ## Display commands help screen
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n"} /^[a-zA-Z_0-9-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
-lint:
-	${PYTHON} -m isort ${FILES_PATH}
-	${PYTHON} -m black ${FILES_PATH}
-	${PYTHON} -m flake8 ${FILES_PATH}
-	${PYTHON} -m pylint ${FILES_PATH}
-	${PYTHON} -m autoflake ${FILES_PATH}
+##@ Development
+.PHONY: venv
+.ONESHELL:
+venv: ## Set a virtual environment for development
+	poetry shell
+	poetry install
 
-test:
-	${PYTHON} -m pytest ${TESTS_PATH}
+.PHONY: lint
+lint: ## Run all linters and formatters
+	${POETRY} ${PYTHON} isort ${SRC_CODE_PATH}
+	${POETRY} ${PYTHON} black ${SRC_CODE_PATH}
+	${POETRY} ${PYTHON} pylint ${SRC_CODE_PATH}
+	${POETRY} ${PYTHON} flake8 ${SRC_CODE_PATH}
+	${POETRY} ${PYTHON} mypy ${SRC_CODE_PATH}
 
-setup:
-	${PYTHON} -m venv .venv
-	source .venv/bin/activate
-	${PIP} install --no-cache-dir --upgrade -r requirements.txt
-	pre-commit install
-	docker-compose up -d
+.PHONY: test
+test: ## Run all tests
+	${POETRY} ${PYTHON} pytest ${SRC_CODE_PATH}
 
-clean: setup
+.PHONY: run_api_locally
+run_api_locally: ## Start web server
+	${POETRY} ${PYTHON} src.api.server
+
+##@ Production
+.PHONY: setup
+.ONESHELL:
+setup: ## Set up all dependencies inside docker containers
+	docker-compose -f .infrastructure/docker/docker-compose.yaml --env-file .env up -d
+
+.PHONY: clean
+.ONESHELL:
+clean: setup ## Stop and delete created containers
 	docker-compose down
-	pre-commit clean
-	pre-commit uninstall
-	deactivate
-	rm -rf .venv/

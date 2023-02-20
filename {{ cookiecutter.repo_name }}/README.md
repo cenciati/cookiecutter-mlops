@@ -1,12 +1,11 @@
 # **{{ cookiecutter.project_name }}**
-<p align="center"><img src="reports/imgs/banner.png"></p>
-<sub>Author: {{ cookiecutter.author_name }}</sub><br>
-<sub>Date: {{ cookiecutter.release_date }}</sub>
+<p align="center"><img src="reports/figures/banner.png"></p>
+<p><b>Author: {{ cookiecutter.author_name }}</b></p>
 
 ---
 
 # **Table of contents**
-  0. Setup
+  0. Getting started
   1. Business problem
   2. Strategy
   3. Insights
@@ -16,27 +15,28 @@
 
 ---
 
-# **0. 📦 Setup**
+# **0. 📦 Getting started**
 ## 0.1. 📋 Requirements
 * Python >= 3.10
-* Pip
+* Poetry >= 1.2
 * Docker
 * Docker-compose
+* GNU Makefile
 
-## 0.2. ⚙️ Running project
+## 0.2. ⚙️ How to run
 **On unix-based systems**
 
-First download the source code with the command:
+First, download the source code by typing:
 ```bash
 $ git clone https://github.com/cenciati/{{ cookiecutter.repo_name }}.git
 ```
 
-Now typing the following command `Makefile` will do all the dirty work for you, such as setting up a virtual environment with all dependencies installed and creating the docker container that will initialize the API:
+Now, `Makefile` will do all the dirty work for you. It's going to set up a containerized environment with all the dependencies installed and the project ready to use. 
 ```bash
 $ make setup
 ```
 
-Once you're done, you can clean everything just by typing:
+Once you're done, you can clean up everything just by typing:
 ```bash
 $ make clean
 ```
@@ -49,10 +49,15 @@ Placeholder
 
 **Problem statement:** Placeholder
 
-## 1.2. Target metric
+**Stakeholders:** Placeholder
+
+## 1.2. Assumptions
+- Placeholder
+
+## 1.3. Target metric
 Placeholder
 
-<p name="" align="center"><img src="reports/figures/"></p>
+<p name="" align="center"><img src="reports/figures/metric.png"></p>
 
 ---
 
@@ -61,14 +66,13 @@ Placeholder
 CRISP-DM stands for cross-industry process for data mining. The CRISP-DM methodology provides a structured approach to planning a data mining project. It is a robust and well-proven methodology.
 
 This model is an idealised sequence of events. In practice many of the tasks can be performed in a different order and it will often be necessary to backtrack to previous tasks and repeat certain actions. The model does not try to capture all possible routes through the data mining process.
-<p align="center"><img src="reports/imgs/crisp-methodology.jpg"></p>
+<p align="center"><img src="reports/figures/crisp-methodology.jpg"></p>
 
 ## 2.2. Steps
 ### 2.2.1. Project architecture
-<p align="center"><img src="reports/imgs/project-architecture.png"></p>
+<p align="center"><img src="reports/figures/project-architecture.png"></p>
 
-### 2.2.2. Data pipeline
-* Business understanding
+### 2.2.2. Pipeline
 0. Data acquisition
 1. Data cleaning and description
 2. Feature engineering
@@ -87,12 +91,12 @@ This model is an idealised sequence of events. In practice many of the tasks can
 ## 3.1. Hypotheses
 Placeholder
 
-## 3.2. Exploration
+## 3.2. Further exploration
 Placeholder
 
 ---
 
-# **4. ✅ Solution**
+# **4. 📌 Solution**
 ## 4.1. Algorithm applied
 Placeholder
 
@@ -101,7 +105,7 @@ Placeholder
 
 ---
 
-# **5. 🏁 Conclusions**
+# **5. 💭 Conclusions**
 ## 5.1. Results
 Placeholder
 
@@ -111,4 +115,4 @@ Placeholder
 ---
 
 # **6. 📎 References**
-[1] Placeholder
+- Placeholder

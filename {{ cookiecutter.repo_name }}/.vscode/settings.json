@@ -1,13 +1,13 @@
 {
     "python.linting.enabled": true,
-    "python.linting.flake8Enabled": true,
     "python.linting.pylintEnabled": true,
     "files.exclude": {
         "**/*.pyc": {
             "when": "$(basename).py"
         },
         "**/__pycache__": true,
-        "**/*.pytest_cache": true
+        "**/*.pytest_cache": true,
+        "**/.mypy_cache": true,
+        "**/.coverage": true
     },
-    "python.analysis.typeCheckingMode": "off",
 }

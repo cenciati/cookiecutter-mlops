@@ -1,56 +1,32 @@
 default_stages: [commit]
 repos:
--   repo: https://github.com/ambv/black
-    rev: 22.6.0
-    hooks: 
-    -   id: black
-        name: format code
--   repo: https://github.com/pycqa/isort
+  - repo: https://github.com/pycqa/isort
     rev: 5.10.1
     hooks:
       - id: isort
         name: sort libraries
--   repo: https://github.com/PyCQA/autoflake
-    rev: v1.7.7
+  - repo: https://github.com/ambv/black
+    rev: 22.10.0
     hooks:
-    -   id: autoflake
-        name: remove dead code
-        args:
-            - --in-place
-            - --expand-star-imports
-            - --remove-duplicate-keys
-            - --remove-all-unused-imports
-            - --remove-unused-variables
--   repo: https://github.com/PyCQA/flake8
-    rev: 5.0.4
-    hooks:
-    -   id: flake8
-        name: lint code (flake8)
--   repo: https://github.com/PyCQA/pylint
+      - id: black
+        name: format code
+  - repo: https://github.com/PyCQA/pylint
     rev: v2.15.6
     hooks:
       - id: pylint
         name: lint code (pylint)
--   repo: local
+  - repo: https://github.com/PyCQA/flake8
+    rev: 5.0.4
     hooks:
-    -   id: pytest
+      - id: flake8
+        name: lint code (flake8)
+        entry: pflake8
+        additional_dependencies: [pyproject-flake8]
+  - repo: local
+    hooks:
+      - id: pytest
         name: test code
         language: system
-        entry: bash -c ".venv/bin/python -m pytest
-               -v -s
-               --cov
-               --cov-report html:reports/coverage
-               --cov-report term-missing
-               --cov-fail-under 80
-               -W ignore::DeprecationWarning
-               src/tests"
+        entry: bash -c "make test"
         always_run: true
-        pass_filenames: false
--   repo: local
-    hooks:
-    -   id: requirements
-        name: update and git add requirements
-        language: system
-        entry: bash -c ".venv/bin/pip freeze > requirements.txt
-               && git add requirements.txt"
         pass_filenames: false
