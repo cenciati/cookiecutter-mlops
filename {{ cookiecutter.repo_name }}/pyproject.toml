@@ -1,88 +1,93 @@
 [tool.poetry]
 name = "{{ cookiecutter.repo_name }}"
-version = "0.1.0"
+version = "0.0.1"
 description = ""
 authors = ["Gabriel Cenciati <gbrcenciati@gmail.com>"]
 license = "{{ cookiecutter.license }}"
 readme = "README.md"
-packages = [{include = "{{ cookiecutter.repo_name }}"}]
+packages = [{ include = "{{ cookiecutter.repo_name }}" }]
 
 [tool.poetry.dependencies]
-python = ">=3.10, <3.12"
-rich = "^13.3.1"
+python = "^3.10"
+rich = "^13.5.2"
+python-dotenv = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
-pre-commit = "^3.0.4"
-black = "^23.1.0"
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+pytest-mock = "^3.11.1"
 isort = "^5.12.0"
-pylint = "^2.16.1"
-flake8 = "^6.0.0"
-pyproject-flake8 = "^6.0.0.post1"
-mypy = "^1.0.0"
-pytest = "^7.2.1"
-pytest-cov = "^4.0.0"
+blue = "^0.9.1"
+pylint = "^2.17.5"
+mypy = "^1.4.1"
+bandit = "^1.7.5"
+pre-commit = "^3.3.3"
+taskipy = "^1.12.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.black]
-line-length = 88
 
 [tool.isort]
 atomic = true
 profile = "black"
 line_length = 88
 skip_gitignore = true
+skip = ["__init__.py"]
+
+[tool.mypy]
+ignore_missing_imports = true
 
 [tool.pylint.'MESSAGES CONTROL']
 max-line-length = 88
-disable = ["C0114", "C0116", "R0903"]
-extension-pkg-whitelist = "pydantic"
+disable = ["C0114", "C0103", "C0116", "R0903", "R0401", "R0801", "E1123"]
 
-[tool.flake8]
-max-line-length = 88
-extend-ignore = ["W503"]
-exclude = [".venv/"]
-per-file-ignores = "__init__.py: F401"
+[tool.pylint.MASTER]
+ignore = [".git", ".venv"]
+ignore-patterns = "__init__.py"
+jobs = 0
 
 [tool.pytest.ini_options]
 addopts = [
-    "-v",
     "-s",
+    "-vv",
+    "-x",
     "--strict-config",
     "--strict-markers",
     "--cov",
     "--cov-report=term-missing:skip-covered",
-    "--cov-report=html:reports/coverage",
+    "--cov-report=html:reports/coverage/test_coverage.html",
     "--cov-fail-under=90",
 ]
 filterwarnings = ["error"]
-testpaths = ["tests"]
+testpaths = ["src/__tests__"]
 markers = [
     "unit: unit tests.",
     "integration: integration tests.",
-    "e2e: end-to-end tests."
+    "e2e: end-to-end tests.",
+    "differential: defferential testing for ml algorithms.",
 ]
 
 [tool.coverage.run]
 parallel = true
-source = ["tests"]
+source = ["src"]
 
-[tool.mypy]
-show_error_codes = true
-follow_imports = "silent"
-ignore_missing_imports = false
-strict_optional = true
-warn_redundant_casts = true
-warn_unused_ignores = true
-disallow_any_generics = true
-check_untyped_defs = true
-no_implicit_reexport = true
-warn_unused_configs = true
-disallow_subclassing_any = true
-disallow_incomplete_defs = true
-disallow_untyped_decorators = true
-disallow_untyped_calls = true
-disallow_untyped_defs = true
-plugins = ["pydantic.mypy"]
+[tool.bandit]
+exclude_dirs = ["src/__tests__", ".venv", ".git"]
+
+[tool.taskipy.tasks]
+lint = { cmd = "isort src/ && blue src/ && pylint src/ && mypy src/ && bandit -c pyproject.toml -r src/", help = "Run all formatters and linters." }
+
+pre_test = { cmd = "poetry run task lint", help = "Run all pre-test tasks." }
+test_ci = { cmd = "poetry run pytest", help = "Run all tests for continuous integration." }
+test_unit = { cmd = "poetry run pytest -k 'unit'", help = "Run unit tests." }
+test_integration = { cmd = "poetry run pytest -k 'integration'", help = "Run integration tests." }
+test_e2e = { cmd = "poetry run pytest -k 'e2e'", help = "Run E2E tests." }
+test_differential = { cmd = "poetry run pytest -k 'differential'", help = "Run differential tests." }
+
+start = { cmd = "poetry run src.server", help = "Run API locally." }
+setup = { cmd = "docker-compose -f .docker/docker-compose.yaml --env-file .env up -d", help = "Create and start all containers." }
+clean = { cmd = "docker-compose -f .docker/docker-compose.yaml down", help = "Stop and remove all containers." }
+
+setup_db = { cmd = "docker-compose -f .docker/docker-compose.yaml --env-file .env up -d --build db", help = "Start PostgreSQL database container." }
+setup_dev_env = { cmd = "docker build -t nyc_taxis_dev_env --target development -f .docker/Dockerfile . && docker container run -p 8888:8888 -p 8000:8000 --mount type=bind,source='$(pwd)',target=/opt/nyc-taxis/ -d nyc_taxis_dev_env", help = "Start development environment." }

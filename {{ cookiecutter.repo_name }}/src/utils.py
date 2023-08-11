@@ -8,11 +8,11 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from scipy.stats import chi2_contingency
 
-from src.logging import logger
+from src.__logs__.logging import logger
 
 
 def set_jupyter_settings(
-    max_columns: Optional[int] | None = None,
+    max_columns: Optional[int] = None,
     max_rows: Optional[int] = 50,
     figsize: Optional[Tuple[int, int]] = (18, 9),
     fontsize: Optional[int] = 12,
@@ -30,31 +30,31 @@ def set_jupyter_settings(
     """
 
     def set_seeds(seed: Optional[int] = 0) -> None:
-        """Randomness configurations."""
+        """Reproducibility (randomness) configurations."""
         np.random.seed(seed)
         random.seed(seed)
 
     def set_pandas_settings(
-        max_columns: Optional[int] | None = None, max_rows: Optional[int] = 50
+        max_columns: Optional[int] = None, max_rows: Optional[int] = 50
     ) -> None:
         """Pandas configurations."""
-        pd.set_option("display.max_columns", max_columns)
-        pd.set_option("display.max_rows", max_rows)
+        pd.set_option('display.max_columns', max_columns)
+        pd.set_option('display.max_rows', max_rows)
 
     def set_plots_settings(
         figsize: Optional[Tuple[int, int]] = (18, 9),
         fontsize: Optional[int] = 12,
     ) -> None:
         """Matplotlib configurations."""
-        plt.rc("figure", figsize=figsize)
-        plt.rc("font", size=fontsize)
+        plt.rc('figure', figsize=figsize)
+        plt.rc('font', size=fontsize)
 
     set_seeds()
     set_pandas_settings(max_columns=max_columns, max_rows=max_rows)
     set_plots_settings(figsize=figsize, fontsize=fontsize)
     if filterwarnings:
-        warnings.filterwarnings("ignore")
-    logger.info("✅ Jupyter has been successfully configured.")
+        warnings.filterwarnings('ignore')
+    logger.info('Jupyter has been successfully configured.')
 
 
 def cramers_v(X: Any, y: Any) -> float:
